@@ -1,21 +1,77 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import { createStackNavigator } from '@react-navigation/stack'
+
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+
+import CardList from './components/CardList'
+import table from './components/table'
+// import Details from './components/Details'
+import Action from './components/Action'
+
+
+// https://ionicons.com/
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+
+// import { createStore } from 'redux'
+// import { Provider } from 'react-redux'
+
+// import rootReducer from './redux/reducers'
+
+// const store=createStore(rootReducer);
+
+const Tab = createBottomTabNavigator();
+
+const tabBarOptions = {
+  activeTintColor: 'tomato',
+  inactiveTintColor: 'gray',
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const screenOptions = ({ route }) => ({
+  tabBarIcon: ({ focused, color, size }) => {
+    let iconName;
+
+    switch (route.name) {
+      // focus가 있으면 'home', 'home-outline'
+      case 'Home':
+        iconName = focused
+          ? 'home'
+          : 'home-outline';
+        break;
+      case 'List':
+        iconName = focused
+          ? 'list'
+          : 'list-outline';
+        break;
+      case 'Actions':
+        iconName = focused
+          ? 'checkmark'
+          : 'checkmark-outline';
+        break;
+    }
+
+    // You can return any component that you like here!
+    return <Ionicons name={iconName} size={size} color={color} />;
   },
-});
+})
+
+export default function App() {
+
+  return (
+    // <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
+            <Tab.Screen name="Home" component={CardList} />
+            <Tab.Screen name="List" component={table}/>
+            <Tab.Screen name="Actions" component={Action}/>
+          </Tab.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    // </Provider>
+  );
+}
