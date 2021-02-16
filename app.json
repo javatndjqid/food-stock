@@ -1,0 +1,12 @@
+{
+  "name": "food-stock",
+  "displayName": "food-stock",
+  "expo": {
+    "name": "food-stock",
+    "slug": "food-stock",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
