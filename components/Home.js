@@ -1,6 +1,6 @@
 import React from 'react';
 import {ScrollView} from 'react-native-gesture-handler'
-import { Text,View, Button } from 'react-native'
+import { Text,View, Button,StyleSheet } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import {LISTDATA} from '../shared/list'
 
@@ -8,16 +8,23 @@ const Home = ()=>{
 
   const list = LISTDATA;
 
-  return(
-    <View style={{
+  const styles = StyleSheet.create({
+    container: {
       flex: 1,
       justifyContent: "center",
-      alignItems: "center"
-    }}>
-      <ScrollView>
+      alignItems: "center",
+    },
+    case1: {
+      width:"100%",     
+    },
+  });
+
+  return(
+    <View style={styles.container}>
+      <ScrollView style={styles.case1}>
         {
           list.map((item,i)=>(
-          <Card key={i}>
+          <Card key={i} style={{flex:1}}>
             <Card.Title>{item.title}</Card.Title>
             <Card.Divider/>
             <Card.Image source={{uri:item.image}}/>        
