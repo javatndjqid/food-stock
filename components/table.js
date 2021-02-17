@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
+import { LISTDATA } from '../shared/list'
  
 const table=()=> {
   // constructor(props) {
   //   super(props);
+  const list = LISTDATA;
   const state = {
-    tableHead: ['Head', 'Head2', 'Head3', 'Head4'],
-    tableData: [
-      ['1', '2', '3', '4'],
-      ['a', 'b', 'c', 'd'],
-      ['1', '2', '3', '456\n789'],
-      ['a', 'b', 'c', 'd']
-    ]
+    tableHead: ['.No', 'Title', 'ImageURI', 'Text'],
+    tableData: list.map((item)=>([
+      [item.id, item.title, item.image, item.text]      
+    ]))
   } 
 
   const styles = StyleSheet.create({

@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import CardList from './components/CardList'
+import Home from './components/Home'
 import table from './components/table'
 // import Details from './components/Details'
 import Action from './components/Action'
@@ -66,7 +66,7 @@ export default function App() {
       <SafeAreaProvider>
         <NavigationContainer>
           <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
-            <Tab.Screen name="Home" component={CardList} />
+            <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="List" component={table}/>
             <Tab.Screen name="Actions" component={Action}/>
           </Tab.Navigator>
