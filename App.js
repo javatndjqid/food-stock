@@ -17,12 +17,12 @@ import Action from './components/Action'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-// import { createStore } from 'redux'
-// import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
-// import rootReducer from './redux/reducers'
+import rootReducer from './redux/reducers'
 
-// const store=createStore(rootReducer);
+const store=createStore(rootReducer);
 
 const Tab = createBottomTabNavigator();
 
@@ -62,7 +62,7 @@ const screenOptions = ({ route }) => ({
 export default function App() {
 
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
       <SafeAreaProvider>
         <NavigationContainer>
           <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
@@ -72,6 +72,6 @@ export default function App() {
           </Tab.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>
-    // </Provider>
+    </Provider>
   );
 }
