@@ -4,7 +4,7 @@ import { Text,View, Button,StyleSheet } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import {LISTDATA} from '../shared/list'
 
-const Home = ()=>{
+const Home = ({navigation})=>{
 
   const list = LISTDATA;
 
@@ -34,6 +34,7 @@ const Home = ()=>{
               <Button
                 icon={<Icon name='code' color='#ffffff'/>}
                 buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                onPress={()=>{navigation.navigate("Detail", {id: item.id})}}
                 title='VIEW NOW'/>      
           </Card>    
           ))

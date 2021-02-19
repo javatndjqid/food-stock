@@ -1,5 +1,5 @@
 import React,{ useState } from 'react';
-import {useDispatch} from 'react-redux'
+import {useDispatch,useSelector} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
 import { LISTDATA } from '../shared/list'
@@ -11,12 +11,13 @@ const table=()=> {
     const list = LISTDATA;
     
     
+    const actions = useSelector(state=>state.actions);
+
+    // const [refreshStatus, setRefreshing] = useState(1);
     
-    const [trueStatus, setRefreshing] = useState(1);
-    
-    const onRefresh = React.useCallback(() => {
-      trueStatus==1?setRefreshing(2):setRefreshing(1);
-    });
+    // const onRefresh = React.useCallback(() => {
+    //   refreshStatus==1?setRefreshing(2):setRefreshing(1);
+    // });
     
 
     const dispatch = useDispatch();
@@ -30,12 +31,29 @@ const table=()=> {
     //   Alert.alert(`This is row ${index + 1}`);
     // }    
     
-    const isStatus = list.filter(item=>item.id==0)[0].status;
-    console.log("isStatus: "+isStatus)
-    console.log("trueStatus: "+trueStatus)
-    console.log(isStatus<trueStatus)
+    
+    const booleanStatus=(id)=>{
+      console.log("booleanStatus실행 id: "+id)
+      if(actions.filter(item=>item.id==id).length>0){
+        return false;
+      }else{      
+      return true;
+      }
+      // console.log("stat<refreshStatus: "+stat<refreshStatus)
+      // return stat<refreshStatus;
+    }
+    const dispatchAdd=(id)=>{
+      console.log("dispatchAdd 실행")
+      const listData=list.filter(item=>item.id===id)[0]
+      dispatch(addAction(listData))
+      // onRefresh();
+    }
+    const dispatchRemove=(id)=>{
+      const listData=list.filter(item=>item.id===id)[0]
+      dispatch(removeAction(listData))
+      // onRefresh();
+    }
 
-  
 
     
 
@@ -43,15 +61,15 @@ const table=()=> {
       <View>
       {
         
-        list.filter(item=>item.id===data)[0].status>trueStatus?false:true
+        booleanStatus(data)
         ?
-          <TouchableOpacity onPress={() => dispatch(addAction(list.filter(item=>item.id===data)[0])) }>
+          <TouchableOpacity onPress={() => dispatchAdd(data) }>
             <View style={styles.ableBtn}>
               <Text style={styles.btnText}>Select</Text>
             </View>
           </TouchableOpacity>
         :
-          <TouchableOpacity onPress={() => dispatch(removeAction(data)) }>
+          <TouchableOpacity onPress={() => dispatchRemove(data) }>
             <View style={styles.unableBtn}>
               <Text style={styles.btnText}>Disable</Text>
             </View>

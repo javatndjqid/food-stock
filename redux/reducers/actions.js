@@ -29,9 +29,11 @@ const actions = (state = [], action) => {
         }
       ];
     case 'REMOVE_ACTION':
-      console.log("remove: "+action.payload)
+      
+      action.payload.status=0
+      console.log("remove: "+action.payload.status)
       return [
-        ...state.filter(item => item.id != action.payload)
+        ...state.filter(item => item.id != action.payload.id)
       ];
     default:
       return state;
