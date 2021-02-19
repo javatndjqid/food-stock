@@ -1,30 +1,64 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { View } from 'react-native';
-import { ListItem, Avatar, Icon, CheckBox } from 'react-native-elements'
+import { View, TouchableOpacity,StyleSheet,Text } from 'react-native';
+import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import { removeAction } from '../redux/actions'
+import { addDateList } from '../redux/actions'
 
-const Actions = ({navigation}) => {
+const Action = ({navigation}) => { 
   
 
   const actions = useSelector(state => state.actions);
+
   console.log(actions);
 
   const dispatch = useDispatch();
+
   const dispatchRemove=(item)=>{
-    dispatch(removeAction(item))
-    
+    dispatch(removeAction(item))    
   }
 
+  const dispatchAddDate=(list)=>{
+    console.log("실행")
+    console.log(list)
+    list.map((item)=>{dispatch(addDateList(item))})
+    
+  }
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      
+      height:50,     
+      flexDirection: 'row', // 혹은 'column'
+      alignItems: "flex-end",
+      justifyContent: 'center'
+    },
+    item1:{
+      flex:1,      
+      width:'100%',
+      height:40,
+      backgroundColor:'tomato',
+      textAlign:'center'
+    },
+    text:{
+      flex:1,
+      textAlign:'center',
+      textAlignVertical:'center',
+      fontWeight:'bold',
+      color:'white',
+      borderWidth:1,
+      borderColor:'black'
+
+    }
+  })
 
   return(
     <View style={{flex:1}}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: 'center' }}>
       {
-        actions.map((item, i) => (
-          <ListItem containerStyle={{width:"80%"}} key={i} onPress={()=>{navigation.navigate("Detail", {id: item.id})}}>
-            <CheckBox/>
+        actions.map((item, i) => (          
+          <ListItem containerStyle={{width:"80%"}} key={i} onPress={()=>{navigation.navigate("Detail", {id: item.id})}}>            
             <Avatar source={{uri: item.image}} />
             <ListItem.Content>
               <ListItem.Title>{item.title}</ListItem.Title>
@@ -35,8 +69,16 @@ const Actions = ({navigation}) => {
         ))
       }
       </ScrollView>
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.item1} onPress={()=>{dispatchAddDate(actions)}}>          
+          <Text style={styles.text}>DATE APPLY</Text>          
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.item1}>          
+          <Text style={styles.text}>DATE REMOVE</Text>          
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
 
-export default Actions;
+export default Action;

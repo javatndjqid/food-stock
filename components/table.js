@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';

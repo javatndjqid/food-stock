@@ -5,6 +5,9 @@ export const LISTDATA = [
     image: "https://picsum.photos/id/20/300/300",
     text: `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
     status: 0,
+    useDate:[
+      
+    ]
     
   }, 
   {
@@ -13,7 +16,9 @@ export const LISTDATA = [
     image: "https://picsum.photos/id/20/300/300",
     text: `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
     status: 0,
-    
+    useDate:[
+      
+    ]
   }, 
   {
     id: 2,
@@ -22,7 +27,16 @@ export const LISTDATA = [
     text: `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
     // text: " The idea with React Native Elements is more about component structure than actual design."
     status: 0,    
-    
+    useDate:[
+      {
+        id: 0,
+        date: `Use Date: ${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
+      },
+      {
+        id: 1,
+        date: `Use Date: ${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
+      }
+    ]
   }, 
   
   

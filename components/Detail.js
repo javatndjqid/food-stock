@@ -29,6 +29,9 @@ const Details = ({ route, navigation }) => {
   const actions = useSelector(state => state.actions);
 
   const isExistedAction = actions.filter(item => item.id == id).length > 0 ? true : false;
+  item.useDate.map((msg)=>{
+    console.log(msg)
+  })
 
   const styles = StyleSheet.create({
     container: {
@@ -53,6 +56,13 @@ const Details = ({ route, navigation }) => {
         <Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 15}}>
             Buy Date: {item.text}
         </Text>
+        {
+          item.useDate.map((msg,i)=>{
+            return <Text key={i} style={{marginBottom: 10, fontSize: 15}}>
+              {msg.date}
+            </Text>
+          })
+        }
         {
           isExistedAction 
             ?        
