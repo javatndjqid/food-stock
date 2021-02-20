@@ -7,7 +7,7 @@
                 
 // 리듀서
 // (현재 state, action의 리턴 객체)=>{
-// sitch.... case.... action의 타입에 따라서 state를 제어
+// switch.... case.... action의 타입에 따라서 state를 제어
 //  return 변경할 state  
 //}
 const actions = (state = [], action) => {

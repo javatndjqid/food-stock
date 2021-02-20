@@ -26,3 +26,11 @@ export const addDateList = payload=>({
   type: 'ADD_DATE_LIST',
   payload
 })
+export const removeDateListLast = payload=>({
+  type: 'REMEOVE_DATE_LIST_LAST',
+  payload
+})
+export const removeDateList = payload=>({
+  type: 'REMEOVE_DATE_LIST',
+  payload
+})

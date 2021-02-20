@@ -5,6 +5,7 @@ import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import { removeAction } from '../redux/actions'
 import { addDateList } from '../redux/actions'
+import { removeDateListLast } from '../redux/actions'
 
 const Action = ({navigation}) => { 
   
@@ -24,6 +25,9 @@ const Action = ({navigation}) => {
     console.log(list)
     list.map((item)=>{dispatch(addDateList(item))})
     
+  }
+  const dispatchRemoveDate=(list)=>{
+    list.map((item)=>{dispatch(removeDateListLast(item))})
   }
   const styles = StyleSheet.create({
     container: {
@@ -73,7 +77,7 @@ const Action = ({navigation}) => {
         <TouchableOpacity style={styles.item1} onPress={()=>{dispatchAddDate(actions)}}>          
           <Text style={styles.text}>DATE APPLY</Text>          
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item1}>          
+        <TouchableOpacity style={styles.item1} onPress={()=>dispatchRemoveDate(actions)}>          
           <Text style={styles.text}>DATE REMOVE</Text>          
         </TouchableOpacity>
       </View>
