@@ -13,11 +13,14 @@
 const actions = (state = [], action) => {
   // actions의 type별로 state(상태) 제어
   switch(action.type) {
-    case 'ADD_ACTION':
+    case 'ADD_CHECK':
       console.log("actions 실행")
-      console.log(action.payload.status)
+      console.log(action.payload)
       action.payload.status=3;
-      console.log(action.payload.status)
+      console.log([...state,{
+        ...action.payload
+      }])
+      
 
       // return 변경할 state
       // 현재 state를 복사하여 변경
@@ -28,7 +31,7 @@ const actions = (state = [], action) => {
           ...action.payload
         }
       ];
-    case 'REMOVE_ACTION':
+    case 'REMOVE_CHECK':
       
       action.payload.status=0
       console.log("remove: "+action.payload.status)

@@ -1,13 +1,17 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler'
-import { Text,View, Button,StyleSheet } from 'react-native'
+import { Text,View, Button,StyleSheet,TouchableOpacity } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
 import {LISTDATA} from '../shared/list'
 
 const Home = ({navigation})=>{
 
-  const list = LISTDATA;
+  const manageList = useSelector(state => state.manageList); 
 
+  console.log("Home's actions")
+  console.log(manageList)
+  const list= LISTDATA
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -16,6 +20,19 @@ const Home = ({navigation})=>{
     },
     case1: {
       width:"100%",     
+    },
+    button: {
+      width: "100%",
+      height: 50,
+      width:50,
+      backgroundColor: "#6b8e23",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop:10,
+      borderRadius:30,
+    },
+    text: {
+      color: "#fff",
     },
   });
 
@@ -29,19 +46,21 @@ const Home = ({navigation})=>{
             <Card.Divider/>
             <Card.Image source={{uri:item.image}}/>        
               <Text style={{marginBottom: 10}}>
-                {item.text}
+                {item.date}
               </Text>
               <Button
                 icon={<Icon name='code' color='#ffffff'/>}
-                buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
+                buttonStyle={{borderRadius: 5, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                 onPress={()=>{navigation.navigate("Detail", {id: item.id})}}
                 title='VIEW NOW'/>      
           </Card>    
           ))
         }
       </ScrollView>     
-      <View style={{position: 'absolute', backgroundColor: '#AAAAAA', right: 40, bottom: 40, height: 30, width: 30}}>
-        <Button title="+"/>
+      <View style={{position: 'absolute', right: 40, bottom: 40}}>        
+        <TouchableOpacity activeOpacity={0.8} style={styles.button} onPress={()=>(navigation.navigate("CreateData"))}>
+                    <Text style={styles.text}>+</Text>
+        </TouchableOpacity>
       </View>       
     </View>    
   )

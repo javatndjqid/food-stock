@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity,StyleSheet,Text } from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
-import { removeAction } from '../redux/actions'
+import { removeCheck } from '../redux/actions'
 import { addDateList } from '../redux/actions'
 import { removeDateListLast } from '../redux/actions'
 
@@ -17,7 +17,7 @@ const Action = ({navigation}) => {
   const dispatch = useDispatch();
 
   const dispatchRemove=(item)=>{
-    dispatch(removeAction(item))    
+    dispatch(removeCheck(item))    
   }
 
   const dispatchAddDate=(list)=>{
@@ -34,7 +34,7 @@ const Action = ({navigation}) => {
       flex: 1,
       
       height:50,     
-      flexDirection: 'row', // 혹은 'column'
+      flexDirection: 'row', 
       alignItems: "flex-end",
       justifyContent: 'center'
     },
@@ -66,7 +66,7 @@ const Action = ({navigation}) => {
             <Avatar source={{uri: item.image}} />
             <ListItem.Content>
               <ListItem.Title>{item.title}</ListItem.Title>
-              <ListItem.Subtitle>{item.text}</ListItem.Subtitle>
+              <ListItem.Subtitle>{item.date}</ListItem.Subtitle>
             </ListItem.Content>
             <Icon name='close' type='ionicon' color='gray' onPress={()=>{dispatchRemove(item)}} />
           </ListItem>

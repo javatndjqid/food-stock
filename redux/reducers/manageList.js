@@ -1,25 +1,52 @@
 const manageList = (state = [], action)=>{
   switch(action.type) {
     case "ADD_LIST":
-      return null;
-    case "REMOVE_LIST":   
-      const id = action.payload.id;   
+      console.log(action.payload);
+      const lastIdCheck=action.payload.list.length-1
+      const newId=action.payload.list[lastIdCheck].id+1
+      const data = {
+        id: newId,
+        title: action.payload.element.title.text,
+        image: action.payload.element.image.text,
+        date: `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
+        status: 0,
+        useDate:[
+          
+        ]
+      }
+      
+      console.log(action.payload.list[lastIdCheck].id)
+      console.log(data)
+
+      action.payload.list.push(data)
+
       return [
         ...state,
         {
-          ...action.payload.filter((item)=>item.id!=id)
+          ...action.payload.list
+        }
+      ];
+    case "REMOVE_LIST":   
+      
+      const find= action.payload.list.find((item)=>{return item.id==action.payload.listId});
+      const id = action.payload.list.indexOf(find);
+      action.payload.list.splice(id,1);
+
+      return [        
+        {
+          ...action.payload.list
         }
       ];
     case "ADD_DATE_LIST":
-      const text = {
+      const useDate = {
         id: action.payload.useDate.length,
-        date: `Use Date: ${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`
+        date: `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`
       }
       console.log("ADD_DATE_LIST = action, action.payload")
       console.log(action)
       console.log(action.payload)
 
-      action.payload.useDate.push(text)
+      action.payload.useDate.push(useDate)
       console.log(action.payload.useDate)      
 
       return [
@@ -28,19 +55,13 @@ const manageList = (state = [], action)=>{
           ...action.payload,
         }
       ];
-    case "REMEOVE_DATE_LIST_LAST":
-      console.log("id.length: "+action.payload.useDate.length)
-      console.log("REMOVE_DATE_LIST = action, action.payload")
-      console.log(action)
-      console.log(action.payload)
-      console.log("state 내용")
-      console.log(state)
+    case "REMOVE_DATE_LIST_LAST":
+      
       if(action.payload.useDate.length==0){
         return state;
       }
       
-      action.payload.useDate.pop()
-      console.log(action.payload.useDate)
+      action.payload.useDate.pop()      
 
       return  [
                 {
@@ -48,8 +69,16 @@ const manageList = (state = [], action)=>{
                 }
               ]; 
     case "REMOVE_DATE_LIST":
+      console.log(action.payload.list)
+      const dateFind= action.payload.list.useDate.find((item)=>{return item.id==action.payload.Id});
+      const dateId = action.payload.list.useDate.indexOf(dateFind);
+      console.log(dateId)
+      action.payload.list.useDate.splice(dateId,1);
       return[
-        ...state.filter((item)=>item.id!=action.payload)
+        ...state,
+        {
+          ...action.payload
+        }
       ]     
     default:
       return state;

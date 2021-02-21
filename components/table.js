@@ -3,7 +3,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
 import { LISTDATA } from '../shared/list'
-import { addAction, removeAction } from '../redux/actions'
+import { addCheck, removeCheck } from '../redux/actions'
  
 const table=()=> {
   
@@ -12,24 +12,14 @@ const table=()=> {
     
     
     const actions = useSelector(state=>state.actions);
-
-    // const [refreshStatus, setRefreshing] = useState(1);
-    
-    // const onRefresh = React.useCallback(() => {
-    //   refreshStatus==1?setRefreshing(2):setRefreshing(1);
-    // });
     
 
     const dispatch = useDispatch();
     
     const table = {
-      tableHead: ['Title','Image','Select'],
-      // widthArr: [30, 105, 120, 120],
-      tableData: list.map((item)=>([item.title,item.text,item.id]))
+      tableHead: ['Title','Buy Date','Select'],
+      tableData: list.map((item)=>([item.title,item.date,item.id]))
     }     
-    // _alertIndex(index) {
-    //   Alert.alert(`This is row ${index + 1}`);
-    // }    
     
     
     const booleanStatus=(id)=>{
@@ -39,19 +29,15 @@ const table=()=> {
       }else{      
       return true;
       }
-      // console.log("stat<refreshStatus: "+stat<refreshStatus)
-      // return stat<refreshStatus;
     }
     const dispatchAdd=(id)=>{
       console.log("dispatchAdd 실행")
       const listData=list.filter(item=>item.id===id)[0]
-      dispatch(addAction(listData))
-      // onRefresh();
+      dispatch(addCheck(listData))
     }
     const dispatchRemove=(id)=>{
       const listData=list.filter(item=>item.id===id)[0]
-      dispatch(removeAction(listData))
-      // onRefresh();
+      dispatch(removeCheck(listData))
     }
 
 
@@ -79,14 +65,6 @@ const table=()=> {
       
     );
     
-    // const tableData = list.map((item)=>([item.id,item.title,item.image,item.text]))
-    // for (let i = 0; i < 30; i += 1) {
-    //   const rowData = [];
-    //   for (let j = 0; j < 9; j += 1) {
-    //     rowData.push(`${i}${j}`);
-    //   }
-    //   tableData.push(rowData);
-    
  
     const styles = StyleSheet.create({
       container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
@@ -103,30 +81,6 @@ const table=()=> {
     
 
     return (
-      // <View style={styles.container}>
-      //   <ScrollView horizontal={true}>
-      //     <View>
-      //       <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-      //         <Row data={table.tableHead} widthArr={table.widthArr} style={styles.header} textStyle={styles.text}/>
-      //       </Table>
-      //       <ScrollView style={styles.dataWrapper}>
-      //         <Table borderStyle={{borderWidth: 1, borderColor: '#C1C0B9'}}>
-      //           {
-      //             status.tableData.map((rowData, index) => (
-      //               <Row
-      //                 key={index}
-      //                 data={rowData}
-      //                 widthArr={table.widthArr}
-      //                 style={[styles.row, index%2 && {backgroundColor: '#F7F6E7'}]}
-      //                 textStyle={styles.text}
-      //               />
-      //             ))
-      //           }
-      //         </Table>
-      //       </ScrollView>
-      //     </View>
-      //   </ScrollView>
-      // </View>
       <View style={styles.container}>
         
       <Table borderStyle={{borderColor: 'transparent'}}>        

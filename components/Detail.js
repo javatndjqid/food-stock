@@ -4,42 +4,48 @@ import {ScrollView} from 'react-native-gesture-handler'
 import { LISTDATA } from '../shared/list';
 import { Card, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux'
-import { removeList,removeDateList } from '../redux/actions'
+import { removeList } from '../redux/actions'
+import { removeDateList } from '../redux/actions'
+import { removeCheck } from '../redux/actions'
 
-
-// 함수의 리턴 값이 JSX.Element면
-// React 컴포넌트가 된다.
-//JSX를 쓸려면 import React From 'react'
-
-// Navigator로 화면을 이동 할 떄 컴포넌트 속성으로 route, navigation이 전달됨
 const Details = ({ route, navigation }) => {
-
-  // navigation.navigate("스크린이름", 매개변수)
-  console.log("---detail");
-  console.log(route.params);
   
   const [modalVisible, setModalVisible] = useState(false);
-  // const id = route.params.id;
+  const [removeDateState, setRemoveDateState] = useState(false);
   const { id } =route.params;
 
   const item = LISTDATA.filter(item => item.id == id)[0];
-  console.log(item);
+  
 
   const dispatch = useDispatch();
 
   const actions = useSelector(state => state.actions);
+  const manageList=useSelector(state=>state.manageList)
+  console.log("actions")
+  console.log(actions)
+  console.log(manageList)
 
-  // const isExistedAction = actions.filter(item => item.id == id).length > 0 ? true : false;
-  // item.useDate.map((msg)=>{
-  //   console.log(msg)
-  // })
-  const dispatchRemove=(listData,modalView)=>{
-    setModalVisible(!modalView)
-    navigation.navigate("Home")
-    dispatch(removeList(listData))
+  const dispatchRemove=(listId,modalView)=>{
+    navigation.goBack()
+    setModalVisible(!modalView)    
+    dispatch(removeList(deleteData(listId)))
+    if(actions.filter(item=>item.id==id).length!=null)dispatch(removeCheck(item))
   }
-  const dispatchRemoveDate=(list)=>{
-    dispatch(removeDateList(list))
+  const dispatchRemoveDate=(list,id)=>{
+    console.log("removeDataList 실행")
+    dispatch(removeDateList(removeDate(list,id)))
+    setRemoveDateState(!removeDateState)
+  }
+  const removeDate=(list,id)=>{
+    return {list:list,id:id}
+  }
+  const deleteData=(id)=>{
+    const list={
+      list: LISTDATA,
+      listId: id
+    }
+    return list;
+
   }
 
   const styles = StyleSheet.create({
@@ -61,8 +67,6 @@ const Details = ({ route, navigation }) => {
       margin: 0,
       backgroundColor: "white",
       borderRadius: 20,
-      // borderColor:'black',
-      // borderWidth:3,
       width:300,
       alignItems: "center",
       shadowColor: "#000",
@@ -76,7 +80,7 @@ const Details = ({ route, navigation }) => {
     },
     buttonWrap:{
       height:50,     
-      flexDirection: 'row', // 혹은 'column'
+      flexDirection: 'row',
       alignItems: "flex-end",
       justifyContent: 'center',
       margin:10
@@ -108,7 +112,7 @@ const Details = ({ route, navigation }) => {
     }
   });
 
-  return (
+  return item?
     <View style={ styles.container }>      
       <ScrollView style={styles.case1}>
       <Card>
@@ -118,35 +122,26 @@ const Details = ({ route, navigation }) => {
         </Card.Image>
         <Card.Divider/>
         <Text style={{marginBottom: 10, fontWeight: 'bold', fontSize: 15}}>
-            Buy Date: {item.text}
+            Buy Date: {item.date}
         </Text>
+        {
+          item.useDate.length>0?
+          <Text style={{fontWeight:"bold", fontSize:17}}>- UseDate</Text>
+          :null
+        }
         {
           item.useDate.map((msg,i)=>{
             return  <View key={i} style={{flex:1,flexDirection: 'row'}}>
-                      <Text style={{marginBottom: 10, fontSize: 15}}>
+                      
+                      <Text style={{marginBottom: 10, fontSize: 13  }}>
                         {msg.date}
                       </Text>    
                       <View style={{flex:1,justifyContent: 'center', alignItems: 'flex-end'}}>
-                        <Icon style={{color:'gray'}} name='close' type='ionicon' color='gray' /*onPress={()=>{dispatchRemoveDate(item)}}*//>
+                        <Icon style={{color:'gray'}} name='close' type='ionicon' color='gray' onPress={()=>{dispatchRemoveDate(item,msg.id)}}/>
                       </View>  
                     </View>     
           })
         }
-        {/* {
-          isExistedAction 
-            ?        
-          <Button
-            onPress={()=>{dispatch(removeAction(item))}}
-            icon={<Icon name='close' type='ionicon' color='#ffffff' />}
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"gray"}}
-            title='Disable'/> 
-            :
-          <Button
-            onPress={()=>{dispatch(addAction(item))}}
-            icon={<Icon name='checkmark' type='ionicon' color='#ffffff' />}
-            buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0, backgroundColor:"tomato"}}
-            title='Select' />
-        } */}
         <View style={styles.centeredView}>
           <Modal
             animationType="slide"
@@ -163,7 +158,7 @@ const Details = ({ route, navigation }) => {
                 <View style={styles.buttonWrap}>
                   <Pressable
                     style={[styles.button, styles.buttonClose]}
-                    onPress={() => dispatchRemove(item,modalVisible)}
+                    onPress={() => dispatchRemove(item.id,modalVisible)}
                   >
                     <Text style={styles.textStyle}>DELETE</Text>
                   </Pressable>
@@ -188,6 +183,10 @@ const Details = ({ route, navigation }) => {
 
       </ScrollView>
     </View>
-  )
+  :<View>
+    <Text>EMPTY</Text>
+  </View>
+    
+  
 }
 export default Details;

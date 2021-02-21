@@ -11,7 +11,7 @@ import Home from './components/Home'
 import Table from './components/table'
 import Detail from './components/Detail'
 import Action from './components/Action'
-
+import CreateData from './components/CreateData'
 
 // https://ionicons.com/
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -32,6 +32,7 @@ const HomeStackScreen = () => {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} options={{ title: "Home", headerTitleAlign: "center" }} />
       <HomeStack.Screen name="Detail" component={Detail} options={{ title: "Detail", headerTitleAlign: "center" }} />
+      <HomeStack.Screen name="CreateData" component={CreateData} options={{ title: "CreateData", headerTitleAlign: "center" }} />
     </HomeStack.Navigator>
   )
 }
@@ -66,7 +67,6 @@ const screenOptions = ({ route }) => ({
     let iconName;
 
     switch (route.name) {
-      // focus가 있으면 'home', 'home-outline'
       case 'Home':
         iconName = focused
           ? 'home'
@@ -84,7 +84,6 @@ const screenOptions = ({ route }) => ({
         break;
     }
 
-    // You can return any component that you like here!
     return <Ionicons name={iconName} size={size} color={color} />;
   },
 })
