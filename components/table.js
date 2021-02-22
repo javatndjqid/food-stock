@@ -12,6 +12,8 @@ const table=()=> {
     
     
     const actions = useSelector(state=>state.actions);
+    const manageList=useSelector(state=>state.manageList);
+    console.log(manageList)
     
 
     const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const table=()=> {
       dispatch(addCheck(listData))
     }
     const dispatchRemove=(id)=>{
+      console.log("dispatchRemove 실행")
       const listData=list.filter(item=>item.id===id)[0]
       dispatch(removeCheck(listData))
     }

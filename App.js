@@ -10,12 +10,11 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import Home from './components/Home'
 import Table from './components/table'
 import Detail from './components/Detail'
-import Action from './components/Action'
+import Check from './components/Check'
 import CreateData from './components/CreateData'
 
 // https://ionicons.com/
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -37,23 +36,13 @@ const HomeStackScreen = () => {
   )
 }
 
-const TableStack = createStackNavigator();
-const ListStackScreen = () => {
+const CheckStack = createStackNavigator();
+const CheckStackScreen = () => {
   return (
-    <TableStack.Navigator>
-      <TableStack.Screen name="Table" component={Table} options={{ title: "Table", headerTitleAlign: "center" }} />
-      <TableStack.Screen name="Detail" component={Detail} options={{ title: "Detail", headerTitleAlign: "center" }} />
-    </TableStack.Navigator>
-  )
-}
-
-const ActionStack = createStackNavigator();
-const ActionStackScreen = () => {
-  return (
-    <ActionStack.Navigator>
-      <ActionStack.Screen name="Action" component={Action} options={{title:"Action", headerTitleAlign:"center"}} />
-      <ActionStack.Screen name="Detail" component={Detail} options={{title:"Detail", headerTitleAlign:"center"}}  />
-    </ActionStack.Navigator>
+    <CheckStack.Navigator>
+      <CheckStack.Screen name="Check" component={Check} options={{title:"Check", headerTitleAlign:"center"}} />
+      <CheckStack.Screen name="Detail" component={Detail} options={{title:"Detail", headerTitleAlign:"center"}}  />
+    </CheckStack.Navigator>
   )
 }
 
@@ -77,7 +66,7 @@ const screenOptions = ({ route }) => ({
           ? 'list'
           : 'list-outline';
         break;
-      case 'Actions':
+      case 'Check':
         iconName = focused
           ? 'checkmark'
           : 'checkmark-outline';
@@ -96,8 +85,8 @@ export default function App() {
         <NavigationContainer>
           <Tab.Navigator screenOptions={screenOptions} tabBarOptions={tabBarOptions}>
             <Tab.Screen name="Home" component={HomeStackScreen} />
-            <Tab.Screen name="List" component={ListStackScreen}/>
-            <Tab.Screen name="Actions" component={ActionStackScreen}/>
+            <Tab.Screen name="List" component={Table}/>
+            <Tab.Screen name="Check" component={CheckStackScreen}/>
           </Tab.Navigator>
         </NavigationContainer>
       </SafeAreaProvider>

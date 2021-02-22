@@ -4,7 +4,7 @@ export const addCheck = payload => ({
 })
 
 export const removeCheck = payload => ({  
-  type: 'REMOVE_Check',
+  type: 'REMOVE_CHECK',
   payload
 })
 
