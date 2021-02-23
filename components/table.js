@@ -2,19 +2,11 @@ import React from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
-import { LISTDATA } from '../shared/list'
 import { addCheck, removeCheck } from '../redux/actions'
  
-const table=()=> {
-  
-    
-    const list = LISTDATA;
-    
-    
-    const actions = useSelector(state=>state.actions);
-    const manageList=useSelector(state=>state.manageList);
-    console.log(manageList)
-    
+const table=({navigation,list})=> {   
+    // console.log(list)
+    const actions = useSelector(state=>state.actions);        
 
     const dispatch = useDispatch();
     
@@ -24,8 +16,7 @@ const table=()=> {
     }     
     
     
-    const booleanStatus=(id)=>{
-      console.log("booleanStatus실행 id: "+id)
+    const booleanStatus=(id)=>{      
       if(actions.filter(item=>item.id==id).length>0){
         return false;
       }else{      
@@ -34,14 +25,20 @@ const table=()=> {
     }
     const dispatchAdd=(id)=>{
       console.log("dispatchAdd 실행")
-      const listData=list.filter(item=>item.id===id)[0]
+      const listData=list.filter(item=>item.id===id)[0]      
       dispatch(addCheck(listData))
+      
     }
     const dispatchRemove=(id)=>{
       console.log("dispatchRemove 실행")
-      const listData=list.filter(item=>item.id===id)[0]
+      const listData=list.filter(item=>item.id===id)[0]      
       dispatch(removeCheck(listData))
     }
+    // const statusChange=(async(listData)=>{
+    //   listData.status=listData.status==0?3:0
+    //   const result = await api.put(listData.id,listData);
+    //   console.log("statusChange: "+result)
+    // })
 
 
     

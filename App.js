@@ -7,8 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import Home from './components/Home'
-import Table from './components/table'
+import Home from './components/HomeContainer'
+import Table from './components/tableContainer'
 import Detail from './components/Detail'
 import Check from './components/Check'
 import CreateData from './components/CreateData'

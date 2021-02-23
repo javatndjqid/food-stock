@@ -3,15 +3,13 @@ import { useSelector } from 'react-redux';
 import {ScrollView} from 'react-native-gesture-handler'
 import { Text,View, Button,StyleSheet,TouchableOpacity } from 'react-native'
 import { Card, Icon } from 'react-native-elements'
-import {LISTDATA} from '../shared/list'
 
-const Home = ({navigation})=>{
+const Home = ({navigation,list})=>{
 
-  const manageList = useSelector(state => state.manageList); 
+  // const manageList = useSelector(state => state.manageList); 
 
-  console.log("Home's actions")
-  console.log(manageList)
-  const list= LISTDATA
+  // console.log("Home's actions")
+  // console.log(manageList)  
   const styles = StyleSheet.create({
     container: {
       flex: 1,

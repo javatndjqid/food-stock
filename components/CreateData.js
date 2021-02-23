@@ -1,34 +1,35 @@
 import React,{useState} from 'react';
 import { Text,View, TouchableOpacity,StyleSheet,TextInput } from 'react-native'
-import { useSelector,useDispatch } from 'react-redux';
-import { addList } from '../redux/actions'
-import {LISTDATA} from '../shared/list'
+import { useSelector } from 'react-redux';
+import api from '../api/list'
 
 const CreateData=({navigation}) => {
     
     const [title,setTitle]=useState("") 
 
-    const [image,setImage]=useState("")  
+    const [image,setImage]=useState("")      
 
-    const dispatch = useDispatch()
+    // console.log(title);
 
-    console.log(title);
-
-    const manageList=useSelector(state=>state.manageList)
-    console.log(manageList)
+    // const manageList=useSelector(state=>state.manageList)
+    // console.log(manageList)
     
 
     const dispatchAddList = (title, image)=>{
         navigation.goBack()
-        dispatch(addList(sendData(title,image)))
-        
+        sendData(title, image)        
     }
-    const sendData=(title,image)=>{
-        return {
-            list:LISTDATA,
-            element: {title,image}
-        }
-    }
+    const sendData=(async(title,image)=>{
+      const data ={        
+        "title": title.text,
+        "image": image.text,
+        "date": `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
+        "status": 0,
+        "useDate":[]        
+      }
+      const result = await api.post(data);
+      console.log(result);
+    })
 
 
     const styles = StyleSheet.create({

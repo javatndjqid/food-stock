@@ -3,9 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity,StyleSheet,Text } from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
-import { removeCheck } from '../redux/actions'
-import { addDateList } from '../redux/actions'
-import { removeDateListLast } from '../redux/actions'
+import { removeCheck,removeDataList } from '../redux/actions'
+import api from '../api/list'
 
 const Action = ({navigation}) => { 
   
@@ -20,15 +19,41 @@ const Action = ({navigation}) => {
     dispatch(removeCheck(item))    
   }
 
-  const dispatchAddDate=(list)=>{
-    console.log("실행")
-    console.log(list)
-    list.map((item)=>{dispatch(addDateList(item))})
+  const dispatchAddDate=(async(list)=>{
+    console.log("list")    
+    list.map(async(item)=>{
+      console.log("item")
+      console.log(item)
+      // console.log(item.useDate[1].id+1)
+      const lastIdCheck=item.useDate.length-1
+      const newId=lastIdCheck>=0?item.useDate[lastIdCheck].id+1:0
+      console.log("lastIdCheck:"+lastIdCheck)
+      const date = {
+        "id": newId,
+        "date":`${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDate()}`
+      }
+      
+      item.useDate[lastIdCheck+1]=date
+      const result = await api.put(item.id,item)
+      console.log(result.data);
+    })
+    // const date = {"date":`${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDate()}`}
+    // list.useDate.push(date)
+    // const result = await api.put(list.id,list)
+    // // list.map((item)=>{dispatch(addDateList(item))})
+    // console.log(result.data)
     
-  }
-  const dispatchRemoveDate=(list)=>{
-    list.map((item)=>{dispatch(removeDateListLast(item))})
-  }
+  })
+  const dispatchRemoveDate=(async(list)=>{
+    console.log("actions:")
+    console.log(list)
+    list.map(async(item)=>{
+      item.useDate.pop();
+      const result = await api.put(item.id,item)      
+      console.log(result.data)
+    })
+    // list.map((item)=>{dispatch(removeDateListLast(item))})
+  })
   const styles = StyleSheet.create({
     container: {
       flex: 1,
