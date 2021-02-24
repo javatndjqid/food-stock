@@ -8,7 +8,7 @@ const Home = ({navigation,list})=>{
 
   // const manageList = useSelector(state => state.manageList); 
 
-  // console.log("Home's actions")
+  console.log("Home's actions")
   // console.log(manageList)  
   const styles = StyleSheet.create({
     container: {

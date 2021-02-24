@@ -23,8 +23,7 @@ const CreateData=({navigation}) => {
       const data ={        
         "title": title.text,
         "image": image.text,
-        "date": `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,
-        "status": 0,
+        "date": `${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`,        
         "useDate":[]        
       }
       const result = await api.post(data);

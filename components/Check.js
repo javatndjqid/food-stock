@@ -3,40 +3,46 @@ import { useSelector, useDispatch } from 'react-redux';
 import { View, TouchableOpacity,StyleSheet,Text } from 'react-native';
 import { ListItem, Avatar, Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
-import { removeCheck,removeDataList } from '../redux/actions'
+import { removeTask,addDateList } from '../redux/actions/tasks'
 import api from '../api/list'
 
 const Action = ({navigation}) => { 
   
 
-  const actions = useSelector(state => state.actions);
-
-  console.log(actions);
+  const tasks = useSelector(state => state.tasks);
 
   const dispatch = useDispatch();
 
   const dispatchRemove=(item)=>{
-    dispatch(removeCheck(item))    
+    dispatch(removeTask(item))    
   }
 
-  const dispatchAddDate=(async(list)=>{
-    console.log("list")    
-    list.map(async(item)=>{
+  const dispatchAddDate=((list)=>{
+    console.log("list")  
+    
+    list.map((item)=>{
       console.log("item")
-      console.log(item)
+      console.log(item)      
       // console.log(item.useDate[1].id+1)
       const lastIdCheck=item.useDate.length-1
       const newId=lastIdCheck>=0?item.useDate[lastIdCheck].id+1:0
-      console.log("lastIdCheck:"+lastIdCheck)
+      // console.log("lastIdCheck:"+lastIdCheck)
       const date = {
         "id": newId,
         "date":`${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDate()}`
       }
       
       item.useDate[lastIdCheck+1]=date
-      const result = await api.put(item.id,item)
-      console.log(result.data);
-    })
+      
+      console.log("item")
+      console.log(item)
+      setTimeout(async()=>{          
+        const result = await api.put(item.id,item)
+        console.log("result.data")
+        console.log(result.data);          
+      },50)
+    })    
+    console.log(tasks)
     // const date = {"date":`${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDate()}`}
     // list.useDate.push(date)
     // const result = await api.put(list.id,list)
@@ -44,14 +50,21 @@ const Action = ({navigation}) => {
     // console.log(result.data)
     
   })
-  const dispatchRemoveDate=(async(list)=>{
+  const dispatchRemoveDate=((list)=>{
     console.log("actions:")
     console.log(list)
-    list.map(async(item)=>{
-      item.useDate.pop();
-      const result = await api.put(item.id,item)      
-      console.log(result.data)
-    })
+    try {
+      list.map((item)=>{      
+        item.useDate.pop()
+        setTimeout(async()=>{
+          const result = await api.put(item.id,item)      
+          console.log(result.data)             
+        },50)
+      })
+    } catch (error) {
+      console.log(MessageEvent);
+    }
+    
     // list.map((item)=>{dispatch(removeDateListLast(item))})
   })
   const styles = StyleSheet.create({
@@ -86,7 +99,7 @@ const Action = ({navigation}) => {
     <View style={{flex:1}}>
       <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: "center", justifyContent: 'center' }}>
       {
-        actions.map((item, i) => (          
+        tasks.map((item, i) => (          
           <ListItem containerStyle={{width:"80%"}} key={i} onPress={()=>{navigation.navigate("Detail", {id: item.id})}}>            
             <Avatar source={{uri: item.image}} />
             <ListItem.Content>
@@ -99,10 +112,10 @@ const Action = ({navigation}) => {
       }
       </ScrollView>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.item1} onPress={()=>{dispatchAddDate(actions)}}>          
+        <TouchableOpacity style={styles.item1} onPress={()=>{dispatchAddDate(tasks)}}>          
           <Text style={styles.text}>DATE APPLY</Text>          
         </TouchableOpacity>
-        <TouchableOpacity style={styles.item1} onPress={()=>dispatchRemoveDate(actions)}>          
+        <TouchableOpacity style={styles.item1} onPress={()=>dispatchRemoveDate(tasks)}>          
           <Text style={styles.text}>DATE REMOVE</Text>          
         </TouchableOpacity>
       </View>

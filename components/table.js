@@ -1,61 +1,53 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { Table, TableWrapper, Row, Cell } from 'react-native-table-component';
-import { addCheck, removeCheck } from '../redux/actions'
+import { addTask, removeTask } from '../redux/actions/tasks'
  
-const table=({navigation,list})=> {   
+const table=({navigation,list})=> {  
+  
+  
     // console.log(list)
-    const actions = useSelector(state=>state.actions);        
+    const listData = list
+    const tasks = useSelector(state=>state.tasks);   
+   
+    console.log("-- Table: tasks --")
+    console.log(tasks)
 
     const dispatch = useDispatch();
-    
+
     const table = {
       tableHead: ['Title','Buy Date','Select'],
-      tableData: list.map((item)=>([item.title,item.date,item.id]))
-    }     
-    
-    
+      tableData: listData.map((item)=>([item.title,item.date,item.id]))
+    }
+
     const booleanStatus=(id)=>{      
-      if(actions.filter(item=>item.id==id).length>0){
-        return false;
-      }else{      
-      return true;
-      }
+      const booleanCheck=tasks.filter(item=>item.id===id) 
+      console.log("--Table: booleanCheck --"+id)
+      console.log(booleanCheck)   
+      return booleanCheck.length>0?false:true
     }
     const dispatchAdd=(id)=>{
-      console.log("dispatchAdd 실행")
-      const listData=list.filter(item=>item.id===id)[0]      
-      dispatch(addCheck(listData))
-      
+      const data = listData.filter(item=>item.id===id)[0]
+      dispatch(addTask(data))
     }
     const dispatchRemove=(id)=>{
-      console.log("dispatchRemove 실행")
-      const listData=list.filter(item=>item.id===id)[0]      
-      dispatch(removeCheck(listData))
-    }
-    // const statusChange=(async(listData)=>{
-    //   listData.status=listData.status==0?3:0
-    //   const result = await api.put(listData.id,listData);
-    //   console.log("statusChange: "+result)
-    // })
+      dispatch(removeTask(id))
+    }   
 
-
-    
-
-    const element = (data) => (        
+    const element = (id) => (        
       <View>
       {
         
-        booleanStatus(data)
+        booleanStatus(id)
         ?
-          <TouchableOpacity onPress={() => dispatchAdd(data) }>
+          <TouchableOpacity onPress={() => dispatchAdd(id) }>
             <View style={styles.ableBtn}>
               <Text style={styles.btnText}>Select</Text>
             </View>
           </TouchableOpacity>
         :
-          <TouchableOpacity onPress={() => dispatchRemove(data) }>
+          <TouchableOpacity onPress={() => dispatchRemove(id) }>
             <View style={styles.unableBtn}>
               <Text style={styles.btnText}>Disable</Text>
             </View>

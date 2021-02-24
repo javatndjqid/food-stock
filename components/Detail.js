@@ -3,15 +3,15 @@ import { Text, View,StyleSheet,Modal,Pressable,ProgressBarAndroid} from 'react-n
 import {ScrollView} from 'react-native-gesture-handler'
 import { Card, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux'
-import { removeCheck } from '../redux/actions'
+import { removeCheck,removeDataList } from '../redux/actions/tasks'
 import api from '../api/list'
 
-const Details = ({route,navigation }) => {
+const Details = ({route,navigation}) => {
 
   const actions=useSelector(state=>state.actions)
   const [item, setItem] = useState()
   const { id } =route.params;
-
+  
   const getList = useCallback(async ()=>{
     const result = await api.list();    
     setItem(result.data.filter(item=>item.id==id)[0]);    
@@ -31,9 +31,9 @@ const Details = ({route,navigation }) => {
   
   console.log(item)  
   const [modalVisible, setModalVisible] = useState(false);
-
+  
   const dispatch = useDispatch();
-
+  
   const dispatchRemove=( async (listId,modalView)=>{
     console.log("deleteId:"+listId)
     navigation.goBack()
@@ -48,25 +48,18 @@ const Details = ({route,navigation }) => {
 
   const dispatchRemoveDate=(async(list,id)=>{
     // console.log("removeDataList 실행")
-    // dispatch(removeDateList(removeDate(list,id)))
-    console.log("list:");
-    console.log(list.useDate)
-    console.log("actions:");
-    console.log(actions[0].useDate)
-    console.log(id)
-    actions[0].useDate=list.useDate.filter(item=>item.id!=id)
-    console.log(list.useDate)
-    console.log("actions:");
-    console.log(actions)
-    const result = await api.put(actions[0].id,actions[0])
+    // dispatch(removeDateList(removeDate(list,id)))       
+    list.useDate=list.useDate.filter(item=>item.id!=id)    
+    const result = await api.put(list.id,list)    
     setItem(result.data)
+    dispatch(removeDataList(removeDate(list,id)))    
 
 
   })
 
-  // const removeDate=(list,id)=>{
-  //   return {list:list,id:id}
-  // }
+  const removeDate=(list,id)=>{
+    return {list:list,id:id}
+  }
   // const deleteData=(id)=>{
   //   const list={
   //     list: LISTDATA,

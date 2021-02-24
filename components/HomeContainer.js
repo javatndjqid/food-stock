@@ -8,7 +8,7 @@ const HomeContainer=({navigation})=>{
 
   const getList=useCallback(async ()=>{
     const result = await api.list()
-    console.log(result.data)
+    // console.log(result.data)
     setList(result.data)
   },[])
 
@@ -16,7 +16,7 @@ const HomeContainer=({navigation})=>{
     const unsubscribe = navigation.addListener(
       'focus',
       () => {
-        console.log('focus')
+        // console.log('focus')
         getList();
       }
     )

@@ -1,31 +1,28 @@
 {
   "list":[
   {
-    "id": 0,
+    "id": 1,
     "title": "HELLO WORLD1",
     "image": "https://picsum.photos/id/20/300/300",
-    "date": "2021.02.22",
-    "status": 0,
+    "date": "2021.02.22",    
     "useDate":[
       
     ]    
   }, 
   {
-    "id": 1,
+    "id": 2,
     "title": "HELLO WORLD2",
     "image": "https://picsum.photos/id/21/300/300",
     "date": "2021.02.22",
-    "status": 0,
     "useDate":[
       
     ]
   }, 
   {
-    "id": 4,
+    "id": 3,
     "title": "HELLO WORLD3",
     "image": "https://picsum.photos/id/22/300/300",
-    "date": "2021.02.22",  
-    "status": 0,    
+    "date": "2021.02.22",        
     "useDate":[
       {
         "id": 0,
@@ -37,5 +34,6 @@
       }
     ]
     }
-  ]
+  ],
+      "tasks":[]
 }
