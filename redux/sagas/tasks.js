@@ -35,10 +35,15 @@ function* fetchTasks(action){
 
   yield put({type:"FETCH_TASKS_SUCCEEDED",payload: result.data})
 }
-function* removeData(action){
-  console.log("-- Saga: removeData.action ")
-  console.log(action)
-}
+
+// function* removeData(action){
+//   console.log("-- Saga: removeData.action --")
+//   console.log(action)
+//   const result = yield call(api.delete,action.payload)
+//   console.log("-- Saga: removeData.result.data --")
+//   console.log(result.data)
+//   yield put({type:"REMOVE_TASK_SUCCEEDED",payload: action.payload});  
+// }
 
 function* tasksSaga() {
     
@@ -49,7 +54,7 @@ function* tasksSaga() {
   yield takeEvery("ADD_TASK", addTask);
   yield takeEvery("REMOVE_TASK", removeTask)
 
-  yield takeEvery("REMOVE_DATA",removeData)
+  // yield takeEvery("REMOVE_DATA",removeData)
   // takeLatest: 해당 액션이 발생할 때 가장 나중에 호출할 액션 처리
   //             이전의 액션은 취소가 됨
   // 주로 api를 통해서 데이터를 조회해 올 때 사용
