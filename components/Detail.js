@@ -3,16 +3,36 @@ import { Text, View,StyleSheet,Modal,Pressable,ProgressBarAndroid} from 'react-n
 import {ScrollView} from 'react-native-gesture-handler'
 import { Card, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux'
-import { removeCheck,removeDataList } from '../redux/actions/tasks'
 import api from '../api/list'
 
 const Details = ({route,navigation}) => {
 
+  const [list,setList]= useState([]);
+    
+  const getList = useCallback(async ()=>{
+    const result = await api.list();
+    // console.log(result.data)
+    setList(result.data);
+  },[])  
+
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener(
+      'focus',
+      () => {
+        console.log('focus')
+        getList();
+      }
+    )
+    return unsubscribe;
+  },[navigation])  
+
   const tasks=useSelector(state=>state.tasks)
   
   const { id } =route.params;
-  
-  const item=tasks.filter(item=>item.id==id)[0]
+  console.log("-- Detail:list --")
+  console.log(list)
+  const item=list.filter(item=>item.id===id)[0]
+  const tasksItem=tasks.filter(item=>item.id==id)[0]  
   
   console.log(item)  
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,7 +52,7 @@ const Details = ({route,navigation}) => {
     // console.log("tasks:")
     // console.log(tasks);
     // if(tasks.filter(item=>item.id==id).length!=null)dispatch(removeCheck(item))
-    dispatch({type:"REMOVE_TASK",payload:listId})
+    if(tasksItem!=null)dispatch({type:"REMOVE_TASK",payload:listId})
   })
 
   const dispatchRemoveDate=(async(list,id)=>{
@@ -43,9 +63,11 @@ const Details = ({route,navigation}) => {
     console.log(list.useDate)
     const result = await api.put(list.id,list)    
     console.log('--Detail: result --')
-    console.log(result.data)
+    console.log(result.data)    
     console.log('--Detail: item --')
     console.log(item)
+    getList()
+    if(tasksItem==null) return list
     dispatch({type:'REMOVE_DATE',payload: result.data, putId: result.data.id,lastId:id})  
   })
 

@@ -47,7 +47,7 @@ const tasks = (state = [], action) => {
       // console.log(test2)        
 
       return [
-        ...state,          
+        ...state,
         ];
     default:
       return state
