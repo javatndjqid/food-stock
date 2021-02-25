@@ -13,8 +13,8 @@ const Action = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const dispatchRemove=(item)=>{
-    dispatch(removeTask(item))    
+  const dispatchRemove=(id)=>{
+    dispatch(removeTask(id))    
   }
 
   const dispatchAddDate=((list)=>{
@@ -29,13 +29,14 @@ const Action = ({navigation}) => {
       // console.log("lastIdCheck:"+lastIdCheck)
       const date = {
         "id": newId,
-        "date":`${new Date().getFullYear()}.${new Date().getMonth()}.${new Date().getDate()}`
+        "date":`${new Date().getFullYear()}.${new Date().getMonth()+1}.${new Date().getDate()}`
       }
       
       item.useDate[lastIdCheck+1]=date
       
       console.log("item")
       console.log(item)
+      dispatch({type:"ADD_DATE", payload: item.useDate, patchId: item.id})
       setTimeout(async()=>{          
         const result = await api.put(item.id,item)
         console.log("result.data")
@@ -54,8 +55,12 @@ const Action = ({navigation}) => {
     console.log("actions:")
     console.log(list)
     try {
-      list.map((item)=>{      
+      list.map((item)=>{         
+        if(item.useDate.length==0)return item         
+        const lastIdCheck=item.useDate.length-1
+        const lastId=item.useDate[lastIdCheck].id   
         item.useDate.pop()
+        dispatch({type:"REMOVE_DATE", payload: item, putId: item.id,lastId:lastId})
         setTimeout(async()=>{
           const result = await api.put(item.id,item)      
           console.log(result.data)             
@@ -106,7 +111,7 @@ const Action = ({navigation}) => {
               <ListItem.Title>{item.title}</ListItem.Title>
               <ListItem.Subtitle>{item.date}</ListItem.Subtitle>
             </ListItem.Content>
-            <Icon name='close' type='ionicon' color='gray' onPress={()=>{dispatchRemove(item)}} />
+            <Icon name='close' type='ionicon' color='gray' onPress={()=>{dispatchRemove(item.id)}} />
           </ListItem>
         ))
       }

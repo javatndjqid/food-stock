@@ -2,27 +2,27 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import api from '../../api/tasks'
 
 function* addTask(action){
-  console.log("-- Saga: addTask.action --")
-  console.log(action);
-  console.log("-- Saga: addTask.action.payload --")
-  console.log(action.payload);
+  // console.log("-- Saga: addTask.action --")
+  // console.log(action);
+  // console.log("-- Saga: addTask.action.payload --")
+  // console.log(action.payload);
 
   const result = yield call(api.post,action.payload)
   console.log("-- Saga: addTask.result.data --")
   console.log(result.data)
 
-  yield put({type:"ADD_TASK_SUCEEDED",payload: action.payload});
+  yield put({type:"ADD_TASK_SUCCEEDED",payload: action.payload});
 }
 
 function* removeTask(action){
-  console.log("-- Saga: addTask.action --")
+  console.log("-- Saga: removeTask.action --")
   console.log(action);
 
   const result = yield call(api.delete,action.payload)
-  console.log("-- Saga: addTask.result.data --")
+  console.log("-- Saga: removeTask.result.data --")
   console.log(result.data)
 
-  yield put({type:"REMOVE_TASK_SUCEEDED",payload: action.payload});  
+  yield put({type:"REMOVE_TASK_SUCCEEDED",payload: action.payload});  
 }
 
 function* fetchTasks(action){
@@ -35,6 +35,10 @@ function* fetchTasks(action){
 
   yield put({type:"FETCH_TASKS_SUCCEEDED",payload: result.data})
 }
+function* removeData(action){
+  console.log("-- Saga: removeData.action ")
+  console.log(action)
+}
 
 function* tasksSaga() {
     
@@ -44,6 +48,8 @@ function* tasksSaga() {
   // yield takeEvery("액션타입", 처리할제너레이터함수)
   yield takeEvery("ADD_TASK", addTask);
   yield takeEvery("REMOVE_TASK", removeTask)
+
+  yield takeEvery("REMOVE_DATA",removeData)
   // takeLatest: 해당 액션이 발생할 때 가장 나중에 호출할 액션 처리
   //             이전의 액션은 취소가 됨
   // 주로 api를 통해서 데이터를 조회해 올 때 사용

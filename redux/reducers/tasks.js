@@ -13,7 +13,7 @@
 const tasks = (state = [], action) => {
   // action의 type별로 state 제어
   switch (action.type) {
-    case 'ADD_TASK_SUCCEEDED':
+    case 'ADD_TASK_SUCCEEDED':      
       // return 변경할state
       // 현재 state를 복사하여 변경
       return [
@@ -25,7 +25,7 @@ const tasks = (state = [], action) => {
           ...action.payload
         }
       ]
-    case 'REMOVE_TASK_SUCCEEDED':
+    case 'REMOVE_TASK_SUCCEEDED':     
       return [
         ...state.filter(item => item.id != action.payload)
       ]
@@ -33,6 +33,22 @@ const tasks = (state = [], action) => {
       return [
         ...action.payload
       ]
+    case "ADD_DATE_SUCCEEDED":
+      return [...state];
+
+    case "REMOVE_DATE_SUCCEEDED":
+      console.log("-- REMOVE_DATE_SUCCEEDED: action.payload --")     
+      console.log(action.payload)
+      // console.log("-- REMOVE_DATE_SUCCEEDED: state --")     
+      // const test1=state
+      // console.log(test1);
+      // const test2 = [...state.filter(item=>item.id!=action.payload.payload.id)];
+      // console.log("-- REMOVE_DATE_SUCCEEDED: return state --")     
+      // console.log(test2)        
+
+      return [
+        ...state,          
+        ];
     default:
       return state
   }

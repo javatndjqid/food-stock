@@ -8,26 +8,11 @@ import api from '../api/list'
 
 const Details = ({route,navigation}) => {
 
-  const actions=useSelector(state=>state.actions)
-  const [item, setItem] = useState()
+  const tasks=useSelector(state=>state.tasks)
+  
   const { id } =route.params;
   
-  const getList = useCallback(async ()=>{
-    const result = await api.list();    
-    setItem(result.data.filter(item=>item.id==id)[0]);    
-  },[])
-
-  useEffect(()=>{
-    const unsubscribe = navigation.addListener(
-      'focus',
-      () => {
-        console.log('focus')
-        getList();
-      }
-    )
-    return unsubscribe;
-  },[navigation])
-
+  const item=tasks.filter(item=>item.id==id)[0]
   
   console.log(item)  
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,31 +20,38 @@ const Details = ({route,navigation}) => {
   const dispatch = useDispatch();
   
   const dispatchRemove=( async (listId,modalView)=>{
-    console.log("deleteId:"+listId)
+    // console.log("deleteId:"+listId)
     navigation.goBack()
     setModalVisible(!modalView)    
     // dispatch(removeList(deleteData(listId)))
     const result = await api.delete(listId);
-    console.log("delete:"+result.data)
-    console.log("actions:")
-    console.log(actions);
-    if(actions.filter(item=>item.id==id).length!=null)dispatch(removeCheck(item))
+    console.log("-- Detail: dispatchRemove.result.data ")
+    console.log(result.data)
+    // dispatch({})
+    // console.log("delete:"+result.data)
+    // console.log("tasks:")
+    // console.log(tasks);
+    // if(tasks.filter(item=>item.id==id).length!=null)dispatch(removeCheck(item))
+    dispatch({type:"REMOVE_TASK",payload:listId})
   })
 
   const dispatchRemoveDate=(async(list,id)=>{
     // console.log("removeDataList 실행")
     // dispatch(removeDateList(removeDate(list,id)))       
-    list.useDate=list.useDate.filter(item=>item.id!=id)    
+    list.useDate=list.useDate.filter(item=>item.id!=id)  
+    console.log('-- Detail:dispatchRemoveData.list.useDate --')  
+    console.log(list.useDate)
     const result = await api.put(list.id,list)    
-    setItem(result.data)
-    dispatch(removeDataList(removeDate(list,id)))    
-
-
+    console.log('--Detail: result --')
+    console.log(result.data)
+    console.log('--Detail: item --')
+    console.log(item)
+    dispatch({type:'REMOVE_DATE',payload: result.data, putId: result.data.id,lastId:id})  
   })
 
-  const removeDate=(list,id)=>{
-    return {list:list,id:id}
-  }
+  // const removeDate=(list,id)=>{
+  //   return {list:list,id:id}
+  // }
   // const deleteData=(id)=>{
   //   const list={
   //     list: LISTDATA,
@@ -147,9 +139,8 @@ const Details = ({route,navigation}) => {
                 Buy Date: {item.date}
             </Text>
             {
-              item.useDate.length>0?
-              <Text style={{fontWeight:"bold", fontSize:17}}>- UseDate</Text>
-              :null
+              item.useDate.length>0&&
+              <Text style={{fontWeight:"bold", fontSize:17}}>- UseDate</Text>              
             }
             {
               item.useDate.map((msg,i)=>{

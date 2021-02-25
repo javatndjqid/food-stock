@@ -31,6 +31,8 @@ const Home = ({navigation,list})=>{
     },
     text: {
       color: "#fff",
+      fontSize:30,
+      fontWeight:'bold'
     },
   });
 
