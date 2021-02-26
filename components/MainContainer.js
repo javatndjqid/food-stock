@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
+import {Alert} from 'react-native'
+
 import Home from './HomeContainer'
 import Table from './tableContainer'
 import Detail from './Detail'
@@ -16,6 +18,8 @@ import CreateData from './CreateData'
 // https://ionicons.com/
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
+
+import messaging from '@react-native-firebase/messaging';
 
 const Tab = createBottomTabNavigator();
 
@@ -76,6 +80,17 @@ export default function App() {
   useEffect(()=>{
     console.log('-- MainMounted --')
     dispatch({type:"FETCH_TASKS"})
+    messaging().getToken()
+    .then(token => {
+      console.log("--token--");
+      console.log(token);
+    }); 
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
+
+    return unsubscribe;
   },[])
 
   return (    

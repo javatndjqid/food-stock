@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "153533800833",
+    "project_id": "notification-de7d2",
+    "storage_bucket": "notification-de7d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:153533800833:android:2aa4a0ed18b06296f34880",
+        "android_client_info": {
+          "package_name": "com.foodstock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "153533800833-f72bp5a4qb8qcf7r5nkac04kcpv59oth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMin1SVl80Wm6PszWqSPaAAzrJYEuN4cs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "153533800833-f72bp5a4qb8qcf7r5nkac04kcpv59oth.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

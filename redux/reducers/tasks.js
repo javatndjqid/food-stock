@@ -47,7 +47,7 @@ const tasks = (state = [], action) => {
       // console.log(test2)        
 
       return [
-        ...state,
+        ...state.map(item=>item.id==action.payload.id?action.payload:item),
         ];
     default:
       return state

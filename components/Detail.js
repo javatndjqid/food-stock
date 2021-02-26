@@ -27,14 +27,16 @@ const Details = ({route,navigation}) => {
   },[navigation])  
 
   const tasks=useSelector(state=>state.tasks)
-  
+  console.log("-- Detail: tasks --")
+  console.log(tasks)
+
   const { id } =route.params;
-  console.log("-- Detail:list --")
-  console.log(list)
+  // console.log("-- Detail:list --")
+  // console.log(list)
   const item=list.filter(item=>item.id===id)[0]
   const tasksItem=tasks.filter(item=>item.id==id)[0]  
   
-  console.log(item)  
+  // console.log(item)  
   const [modalVisible, setModalVisible] = useState(false);
   
   const dispatch = useDispatch();
@@ -59,14 +61,16 @@ const Details = ({route,navigation}) => {
     // console.log("removeDataList 실행")
     // dispatch(removeDateList(removeDate(list,id)))       
     list.useDate=list.useDate.filter(item=>item.id!=id)  
-    console.log('-- Detail:dispatchRemoveData.list.useDate --')  
-    console.log(list.useDate)
+    // console.log('-- Detail:dispatchRemoveData.list.useDate --')  
+    // console.log(list.useDate)
     const result = await api.put(list.id,list)    
-    console.log('--Detail: result --')
-    console.log(result.data)    
-    console.log('--Detail: item --')
-    console.log(item)
+    // console.log('--Detail: result --')
+    // console.log(result.data)    
+    // console.log('--Detail: item --')
+    // console.log(item)
     getList()
+    console.log("-- Detail: tasksItem --")
+    console.log(tasksItem)
     if(tasksItem==null) return list
     dispatch({type:'REMOVE_DATE',payload: result.data, putId: result.data.id,lastId:id})  
   })
