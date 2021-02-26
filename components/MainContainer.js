@@ -7,7 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-import {Alert} from 'react-native'
+import { Alert } from 'react-native'
 
 import Home from './HomeContainer'
 import Table from './tableContainer'
@@ -80,6 +80,7 @@ export default function App() {
   useEffect(()=>{
     console.log('-- MainMounted --')
     dispatch({type:"FETCH_TASKS"})
+    
     messaging().getToken()
     .then(token => {
       console.log("--token--");
